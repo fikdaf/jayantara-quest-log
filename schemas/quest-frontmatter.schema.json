@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JAYANTARA Quest Frontmatter",
+  "type": "object",
+  "required": ["id", "day", "title", "type", "phase", "level", "estimated_minutes", "skills", "prerequisites", "reward"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^day-(0[1-9]|[12][0-9]|30)$" },
+    "day": { "type": "integer", "minimum": 1, "maximum": 30 },
+    "title": { "type": "string", "minLength": 1 },
+    "type": { "enum": ["lesson", "checkpoint", "final_exam"] },
+    "phase": { "enum": ["foundation", "novice", "adept", "kanji", "workplace", "career"] },
+    "level": { "const": "N5" },
+    "estimated_minutes": { "type": "integer", "minimum": 5, "maximum": 180 },
+    "skills": { "type": "array", "items": { "type": "string" } },
+    "prerequisites": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^day-(0[1-9]|[12][0-9]|30)$" }
+    },
+    "reward": {
+      "type": "object",
+      "required": ["badge"],
+      "properties": {
+        "badge": {
+          "enum": ["rookie-i", "rookie-ii", "rookie-iii", "rookie-iv", "bronze", "novice-i", "novice-ii", "novice-iii", "novice-iv", "silver", "adept-warrior", "kanji-apprentice", "japan-ready", "interview-master", "gold-jayantara"]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
