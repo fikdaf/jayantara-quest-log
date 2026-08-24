@@ -18,6 +18,9 @@ def expect_error(fn, message):
 
 
 def main():
+    assert module.load_prerequisites(1) == []
+    assert 1 in module.load_prerequisites(2)
+    assert 4 in module.load_prerequisites(5)
     assert module.complete(1, []) == [1]
     expect_error(lambda: module.complete(2, []), "day 2 must require day 1")
     assert module.complete(2, [1]) == [1, 2]
@@ -25,7 +28,7 @@ def main():
     assert module.complete(5, [1, 2, 3, 4]) == [1, 2, 3, 4, 5]
     assert module.complete(5, [5, 1, 2, 3, 4]) == [1, 2, 3, 4, 5]
     expect_error(lambda: module.complete(31, []), "day 31 must be rejected")
-    print("Quest completion tests passed: 6 scenarios.")
+    print("Quest completion tests passed: 9 scenarios.")
 
 
 if __name__ == "__main__":
