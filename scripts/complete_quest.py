@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Complete a quest only when all declared prerequisites are satisfied.
+"""Complete a quest only when Day N-1 and declared prerequisites are satisfied.
+
+The curriculum is intentionally sequential: Day N requires Day N-1.
+Additional prerequisites declared in quest frontmatter are enforced too.
 
 Usage:
   python scripts/complete_quest.py 5 1 2 3 4
@@ -21,9 +24,12 @@ def load_prerequisites(day):
         raise ValueError(f"quest day-{day:02d} does not exist")
     text = path.read_text(encoding="utf-8")
     match = re.search(r"^prerequisites:\s*\n((?:  - .+\n?)*)", text, re.MULTILINE)
-    if not match:
-        return []
-    return [int(value) for value in re.findall(r"^  - (?:day-)?(\d+)\s*$", match.group(1), re.MULTILINE)]
+    declared = [] if not match else [
+        int(value) for value in re.findall(r"^  - (?:day-)?(\d+)\s*$", match.group(1), re.MULTILINE)
+    ]
+    if day > 1:
+        declared.append(day - 1)
+    return sorted(set(declared))
 
 
 def complete(day, completed):
