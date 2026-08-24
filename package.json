@@ -1,0 +1,15 @@
+{
+  "name": "jayantara-quest-log",
+  "private": true,
+  "version": "0.1.0",
+  "description": "JAYANTARA Nihongo Master-Kit cross-platform application foundation",
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "build:core": "tsc -p packages/core/tsconfig.json",
+    "test:core": "npm run build:core && node --test packages/core/dist/*.test.js",
+    "test": "npm run test:core"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}
