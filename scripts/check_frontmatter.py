@@ -34,6 +34,33 @@ def value(front, key):
     return match.group(1) if match else None
 
 
+def list_items(front, key):
+    """Support both inline YAML lists and indented block lists."""
+    match = re.search(rf"^{re.escape(key)}:\s*(.*)$", front, re.MULTILINE)
+    if not match:
+        return None
+    inline = match.group(1).strip()
+    if inline:
+        if not (inline.startswith("[") and inline.endswith("]")):
+            return None
+        body = inline[1:-1].strip()
+        return [item.strip().strip("\"'") for item in body.split(",") if item.strip()]
+
+    tail = front[match.end():]
+    items = []
+    for line in tail.splitlines():
+        if not line.strip():
+            continue
+        if re.match(r"^\s+-\s+", line):
+            items.append(re.sub(r"^\s+-\s+", "", line).strip().strip("\"'"))
+            continue
+        if re.match(r"^\S[\w-]*:", line):
+            break
+        if not line.startswith(" "):
+            break
+    return items if items else None
+
+
 errors = []
 seen_ids = set()
 for day in range(1, 31):
@@ -72,15 +99,14 @@ for day in range(1, 31):
     if not minutes or not minutes.isdigit() or not (5 <= int(minutes) <= 180):
         errors.append(f"Day {day}: estimated_minutes must be 5..180")
 
-    skills = value(front, "skills")
-    prerequisites = value(front, "prerequisites")
-    if skills is None or not (skills.startswith("[") and skills.endswith("]")):
+    skills = list_items(front, "skills")
+    prerequisites = list_items(front, "prerequisites")
+    if skills is None:
         errors.append(f"Day {day}: skills must be a list")
-    if prerequisites is None or not (prerequisites.startswith("[") and prerequisites.endswith("]")):
+    if prerequisites is None:
         errors.append(f"Day {day}: prerequisites must be a list")
     else:
-        for prereq in prerequisites[1:-1].split(","):
-            prereq = prereq.strip()
+        for prereq in prerequisites:
             if prereq and not re.fullmatch(r"day-(0[1-9]|[12][0-9]|30)", prereq):
                 errors.append(f"Day {day}: invalid prerequisite '{prereq}'")
 
