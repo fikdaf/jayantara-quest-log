@@ -54,6 +54,9 @@ jobs:
           test -f scripts/test_complete_quest.py
           test -f scripts/complete_progress.py
           test -f scripts/test_complete_progress.py
+          test -f scripts/save_progress.py
+          test -f scripts/test_save_progress.py
+          test -f scripts/test_complete_progress_persistence.py
           test -f scripts/build_curriculum.py
           test -f scripts/calculate_xp.py
           test -f data/badges.yaml
@@ -88,6 +91,10 @@ jobs:
         run: python scripts/test_complete_quest.py
       - name: Run transactional progress regression tests
         run: python scripts/test_complete_progress.py
+      - name: Run progress persistence regression tests
+        run: python scripts/test_save_progress.py
+      - name: Run completion persistence integration test
+        run: python scripts/test_complete_progress_persistence.py
       - name: Calculate XP
         run: python scripts/calculate_xp.py
       - name: Smoke test transactional progress JSON
@@ -96,6 +103,10 @@ jobs:
           python -m json.tool /tmp/progress.json > /dev/null
           python scripts/complete_progress.py --json 5 1 2 3 4 > /tmp/progress-day5.json
           python -m json.tool /tmp/progress-day5.json > /dev/null
+      - name: Smoke test persistent progress
+        run: |
+          python scripts/complete_progress.py --save --state-file /tmp/progress-state.json 1
+          python -m json.tool /tmp/progress-state.json > /dev/null
       - name: Build generated quest index
         run: python scripts/build_curriculum.py
       - name: Validate generated index
