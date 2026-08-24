@@ -23,14 +23,19 @@ def main():
     check(state["current_day"] == 1, "initial current day")
     check(state["current_phase"] == "foundation", "initial phase")
 
+    state = module.resolve([1])
+    check(state["badges"] == ["rookie-i"], "day 1 rookie badge")
+
     state = module.resolve([1, 2, 3, 4, 5])
     check(state["current_day"] == 6, "day after foundation")
     check(state["current_phase"] == "novice", "phase after foundation")
     check("bronze" in state["badges"], "bronze milestone")
     check(state["xp"] > 0, "foundation XP")
+    check(all(badge in state["badges"] for badge in ["rookie-i", "rookie-ii", "rookie-iii", "rookie-iv"]), "rookie badges retained")
 
     state = module.resolve([5, 1, 3, 2, 4])
     check(state["completed_quests"] == [1, 2, 3, 4, 5], "ordering is canonical")
+    check("bronze" in state["badges"], "unordered completion milestone")
 
     state = module.resolve(list(range(1, 30)))
     check(state["current_day"] == 30, "final quest remains current")
@@ -46,7 +51,7 @@ def main():
 
     encoded = json.dumps(state)
     check(json.loads(encoded)["version"] == 1, "state is JSON serializable")
-    print("Progress resolver tests passed: 5 scenarios.")
+    print("Progress resolver tests passed: 7 scenarios.")
 
 
 if __name__ == "__main__":
