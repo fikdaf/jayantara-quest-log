@@ -1,0 +1,7 @@
+{
+  "name": "@jayantara/platform",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/storage.js",
+  "types": "dist/storage.d.ts"
+}
