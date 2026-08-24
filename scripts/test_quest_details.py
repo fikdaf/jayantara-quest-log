@@ -26,7 +26,7 @@ def main():
 
     quest30 = module.parse(30)
     assert quest30["id"] == "day-30"
-    assert quest30["prerequisites"] == ["day-29"]
+    assert quest30["prerequisites"] == [f"day-{day:02d}" for day in range(1, 30)]
 
     print("Quest details tests passed: nested reward and prerequisite metadata verified.")
 
