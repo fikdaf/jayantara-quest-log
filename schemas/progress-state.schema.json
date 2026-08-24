@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JAYANTARA Progress State",
+  "type": "object",
+  "required": ["version", "completed_quests", "xp", "badges", "current_day", "current_phase"],
+  "properties": {
+    "version": {"type": "integer", "const": 1},
+    "completed_quests": {"type": "array", "items": {"type": "integer", "minimum": 1, "maximum": 30}, "uniqueItems": true},
+    "xp": {"type": "integer", "minimum": 0},
+    "badges": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "current_day": {"type": "integer", "minimum": 1, "maximum": 30},
+    "current_phase": {"type": "string", "enum": ["foundation", "novice", "adept", "kanji", "workplace", "career"]}
+  },
+  "additionalProperties": false
+}
