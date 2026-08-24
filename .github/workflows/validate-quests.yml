@@ -57,6 +57,8 @@ jobs:
           test -f scripts/save_progress.py
           test -f scripts/test_save_progress.py
           test -f scripts/test_complete_progress_persistence.py
+          test -f scripts/jayantara.py
+          test -f scripts/test_jayantara_cli.py
           test -f scripts/build_curriculum.py
           test -f scripts/calculate_xp.py
           test -f data/badges.yaml
@@ -95,6 +97,8 @@ jobs:
         run: python scripts/test_save_progress.py
       - name: Run completion persistence integration test
         run: python scripts/test_complete_progress_persistence.py
+      - name: Run player CLI regression tests
+        run: python scripts/test_jayantara_cli.py
       - name: Calculate XP
         run: python scripts/calculate_xp.py
       - name: Smoke test transactional progress JSON
