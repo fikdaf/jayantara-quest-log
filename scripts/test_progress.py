@@ -25,6 +25,16 @@ def main():
 
     state = module.resolve([1])
     check(state["badges"] == ["rookie-i"], "day 1 rookie badge")
+    check(state["current_day"] == 2, "day 2 becomes current")
+
+    state = module.resolve([1, 1, 2])
+    check(state["completed_quests"] == [1, 2], "duplicate completion is idempotent")
+    check(state["xp"] == 200, "duplicate completion does not double XP")
+
+    state = module.resolve([2])
+    check(state["completed_quests"] == [2], "resolver accepts recorded completion independently")
+    check(state["current_day"] == 1, "missing day 1 remains current")
+    check(state["badges"] == [], "day 2 alone does not unlock day 1 badge")
 
     state = module.resolve([1, 2, 3, 4, 5])
     check(state["current_day"] == 6, "day after foundation")
@@ -49,9 +59,10 @@ def main():
     check("gold-jayantara" in state["badges"], "gold milestone")
     check(len(state["completed_quests"]) == 30, "all quests completed")
 
-    encoded = json.dumps(state)
+    encoded = json.dumps(state, sort_keys=True)
     check(json.loads(encoded)["version"] == 1, "state is JSON serializable")
-    print("Progress resolver tests passed: 7 scenarios.")
+    check(json.dumps(state, sort_keys=True) == json.dumps(module.resolve(list(range(1, 31))), sort_keys=True), "resolver is deterministic")
+    print("Progress resolver tests passed: 10 scenarios.")
 
 
 if __name__ == "__main__":
