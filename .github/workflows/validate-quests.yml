@@ -47,6 +47,7 @@ jobs:
           test -f scripts/validate_quests.py
           test -f scripts/check_frontmatter.py
           test -f scripts/validate_curriculum.py
+          test -f scripts/validate_dependencies.py
           test -f scripts/build_curriculum.py
           test -f data/badges.yaml
           test -f data/curriculum.yaml
@@ -63,6 +64,9 @@ jobs:
 
       - name: Validate curriculum metadata
         run: python scripts/validate_curriculum.py
+
+      - name: Validate prerequisite graph
+        run: python scripts/validate_dependencies.py
 
       - name: Validate Python scripts
         run: python -m py_compile scripts/*.py
