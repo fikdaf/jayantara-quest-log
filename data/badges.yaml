@@ -1,0 +1,54 @@
+version: 1
+badges:
+  rookie-i:
+    name: Rookie I
+    unlock_day: 1
+  rookie-ii:
+    name: Rookie II
+    unlock_day: 2
+  rookie-iii:
+    name: Rookie III
+    unlock_day: 3
+  rookie-iv:
+    name: Rookie IV
+    unlock_day: 4
+  bronze:
+    name: BRONZE BADGE
+    unlock_day: 5
+    requires: [1, 2, 3, 4]
+  novice-i:
+    name: Novice I
+    unlock_day: 6
+  novice-ii:
+    name: Novice II
+    unlock_day: 7
+  novice-iii:
+    name: Novice III
+    unlock_day: 8
+  novice-iv:
+    name: Novice IV
+    unlock_day: 9
+  silver:
+    name: SILVER BADGE
+    unlock_day: 10
+    requires: [6, 7, 8, 9]
+  adept-warrior:
+    name: Adept Warrior
+    unlock_day: 15
+    requires: [11, 12, 13, 14]
+  kanji-apprentice:
+    name: Kanji Apprentice
+    unlock_day: 20
+    requires: [16, 17, 18, 19]
+  japan-ready:
+    name: Japan Ready
+    unlock_day: 25
+    requires: [21, 22, 23, 24, 25]
+  interview-master:
+    name: Interview Master
+    unlock_day: 29
+    requires: [26, 27, 28, 29]
+  gold-jayantara:
+    name: GOLD JAYANTARA
+    unlock_day: 30
+    requires: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
