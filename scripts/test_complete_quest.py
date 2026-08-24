@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression tests for prerequisite-aware quest completion."""
+"""Regression tests for sequential quest completion."""
 import importlib.util
 from pathlib import Path
 
@@ -18,13 +18,10 @@ def expect_error(fn, message):
 
 
 def main():
-    # Current migrated quest metadata explicitly declares no prerequisites for
-    # these early quests, so completion must not invent sequential dependencies.
-    assert module.load_prerequisites(1) == []
-    assert module.load_prerequisites(2) == []
     assert module.complete(1, []) == [1]
-    assert module.complete(2, []) == [2]
+    expect_error(lambda: module.complete(2, []), "day 2 must require day 1")
     assert module.complete(2, [1]) == [1, 2]
+    expect_error(lambda: module.complete(5, [1, 2]), "day 5 must require day 4")
     assert module.complete(5, [1, 2, 3, 4]) == [1, 2, 3, 4, 5]
     assert module.complete(5, [5, 1, 2, 3, 4]) == [1, 2, 3, 4, 5]
     expect_error(lambda: module.complete(31, []), "day 31 must be rejected")
