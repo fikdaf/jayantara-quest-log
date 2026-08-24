@@ -7,6 +7,10 @@ on:
       - 'data/**'
       - 'schemas/**'
       - 'scripts/**'
+      - 'packages/**'
+      - 'apps/**'
+      - 'package.json'
+      - 'tsconfig.json'
       - 'README.md'
       - '.github/workflows/validate-quests.yml'
   pull_request:
@@ -15,6 +19,10 @@ on:
       - 'data/**'
       - 'schemas/**'
       - 'scripts/**'
+      - 'packages/**'
+      - 'apps/**'
+      - 'package.json'
+      - 'tsconfig.json'
       - 'README.md'
       - '.github/workflows/validate-quests.yml'
   workflow_dispatch:
@@ -40,6 +48,11 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+          cache: npm
       - name: Verify repository files
         run: |
           test -f schemas/quest-frontmatter.schema.json
@@ -70,7 +83,14 @@ jobs:
           test -f data/xp-rules.yaml
           test -f data/progression.yaml
           test -f data/progress-state.example.json
+          test -f package.json
+          test -f packages/core/package.json
+          test -f packages/core/tsconfig.json
+          test -f packages/core/src/index.ts
+          test -f packages/core/src/index.test.ts
           test -d quests
+      - name: Install JavaScript dependencies
+        run: npm install
       - name: Validate schema JSON
         run: |
           python -m json.tool schemas/quest-frontmatter.schema.json > /dev/null
@@ -91,6 +111,8 @@ jobs:
         run: python scripts/validate_badges.py
       - name: Validate Python scripts
         run: python -m py_compile scripts/*.py
+      - name: Run shared core tests
+        run: npm test
       - name: Run progress resolver regression tests
         run: python scripts/test_progress.py
       - name: Run quest completion regression tests
