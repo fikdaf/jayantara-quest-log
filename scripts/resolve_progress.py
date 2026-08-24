@@ -48,8 +48,8 @@ def resolve(days):
     badges = load_badges()
     unlocked = sorted(
         badge_id for badge_id, badge in badges.items()
-        if set(badge.get("requires", [])) <= completed
-        and (not badge.get("requires") or badge.get("unlock_day") in completed)
+        if badge.get("unlock_day") in completed
+        and set(badge.get("requires", [])) <= completed
     )
 
     if len(completed) == 30:
