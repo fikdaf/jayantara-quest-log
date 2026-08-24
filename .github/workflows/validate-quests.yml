@@ -48,9 +48,13 @@ jobs:
           test -f scripts/check_frontmatter.py
           test -f scripts/validate_curriculum.py
           test -f scripts/validate_dependencies.py
+          test -f scripts/validate_progression.py
           test -f scripts/build_curriculum.py
+          test -f scripts/calculate_xp.py
           test -f data/badges.yaml
           test -f data/curriculum.yaml
+          test -f data/xp-rules.yaml
+          test -f data/progression.yaml
           test -d quests
 
       - name: Validate schema JSON
@@ -68,8 +72,14 @@ jobs:
       - name: Validate prerequisite graph
         run: python scripts/validate_dependencies.py
 
+      - name: Validate progression rules
+        run: python scripts/validate_progression.py
+
       - name: Validate Python scripts
         run: python -m py_compile scripts/*.py
+
+      - name: Calculate XP
+        run: python scripts/calculate_xp.py
 
       - name: Build generated quest index
         run: python scripts/build_curriculum.py
