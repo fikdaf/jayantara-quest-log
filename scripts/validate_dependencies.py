@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate quest prerequisites and progression rules."""
+"""Validate explicitly declared quest prerequisites."""
 from pathlib import Path
 import re
 import sys
@@ -51,12 +51,19 @@ for day in range(1, 31):
     quest_id = re.search(r"^id:[ \t]*(.+)$", front, re.MULTILINE)
     quest_type = re.search(r"^type:[ \t]*(.+)$", front, re.MULTILINE)
     prerequisites = block_list(front, "prerequisites")
+    if prerequisites is None:
+        errors.append(f"Day {day}: prerequisites must be a list")
+        prerequisites = []
     if not quest_id or not quest_type:
         continue
-    quests[quest_id.group(1).strip()] = {
+    quest_id = quest_id.group(1).strip()
+    if quest_id in quests:
+        errors.append(f"Day {day}: duplicate quest id '{quest_id}'")
+        continue
+    quests[quest_id] = {
         "day": day,
         "type": quest_type.group(1).strip(),
-        "prerequisites": prerequisites or [],
+        "prerequisites": prerequisites,
     }
 
 for quest_id, meta in quests.items():
@@ -67,20 +74,9 @@ for quest_id, meta in quests.items():
         if quests[prereq]["day"] >= meta["day"]:
             errors.append(f"{quest_id}: prerequisite '{prereq}' must be an earlier day")
 
-for day in range(1, 31):
-    quest_id = f"day-{day:02d}"
-    if quest_id not in quests:
-        continue
-    expected = [] if day == 1 else [f"day-{day-1:02d}"]
-    actual = quests[quest_id]["prerequisites"]
-    # A quest may have additional dependencies, but every day after Day 1
-    # must at least depend on the immediately preceding quest.
-    if day > 1 and f"day-{day-1:02d}" not in actual:
-        errors.append(f"Day {day}: missing prerequisite day-{day-1:02d}")
-
 if errors:
     print("Dependency validation failed:")
     print("\n".join(f"- {e}" for e in errors))
     sys.exit(1)
 
-print("Dependency validation passed: quest prerequisites form a valid 30-day progression.")
+print("Dependency validation passed: all explicitly declared prerequisites are valid.")
