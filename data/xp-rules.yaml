@@ -1,0 +1,9 @@
+version: 1
+currency: xp
+rules:
+  lesson: 100
+  checkpoint: 250
+  final_exam: 500
+bonuses:
+  phase_completion: 250
+  full_course: 1000
