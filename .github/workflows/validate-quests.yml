@@ -1,0 +1,24 @@
+name: Validate Quest Content
+
+on:
+  push:
+    paths:
+      - 'quests/**'
+      - 'data/**'
+      - 'scripts/**'
+      - '.github/workflows/validate-quests.yml'
+  pull_request:
+    paths:
+      - 'quests/**'
+      - 'data/**'
+      - 'scripts/**'
+      - '.github/workflows/validate-quests.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate quest structure
+        run: python3 scripts/validate_quests.py
