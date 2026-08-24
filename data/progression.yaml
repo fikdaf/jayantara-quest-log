@@ -1,0 +1,24 @@
+version: 1
+phases:
+  - id: foundation
+    days: [1, 2, 3, 4, 5]
+    unlock_after: null
+  - id: novice
+    days: [6, 7, 8, 9, 10]
+    unlock_after: foundation
+  - id: adept
+    days: [11, 12, 13, 14, 15]
+    unlock_after: novice
+  - id: kanji
+    days: [16, 17, 18, 19, 20]
+    unlock_after: adept
+  - id: workplace
+    days: [21, 22, 23, 24, 25]
+    unlock_after: kanji
+  - id: career
+    days: [26, 27, 28, 29, 30]
+    unlock_after: workplace
+completion:
+  quest: complete
+  phase: complete_all_quests
+  course: complete_all_quests
