@@ -1,10 +1,27 @@
-# Day 20: Kanji Dasar N5 (5) — Review 50 Kanji + Flashcard Anki
+---
+id: day-20
+day: 20
+title: Kanji Dasar N5 (5) — Review 40 Kanji + Flashcard Anki
+type: checkpoint
+phase: kanji
+level: N5
+estimated_minutes: 30
+skills:
+  - kanji-review
+  - flashcards
+  - spaced-repetition
+prerequisites: [day-16, day-17, day-18, day-19]
+reward:
+  badge: kanji-apprentice
+---
+
+# Day 20: Kanji Dasar N5 (5) — Review 40 Kanji + Flashcard Anki
 
 [← Kembali ke README](../README.md)
 
 ## 🎯 Materi & Output Skill
 
-Review menyeluruh 50 kanji pertama (Day 16–19) + cara membuat sistem flashcard Anki untuk hafalan jangka panjang.
+Review menyeluruh **40 kanji pertama (Day 16–19)** + cara membuat sistem flashcard Anki untuk hafalan jangka panjang.
 
 ## 🔁 Rekap 40 Kanji Sebelumnya
 
@@ -25,7 +42,7 @@ Anki adalah aplikasi flashcard dengan sistem *spaced repetition* — kartu yang 
 
 **Alternatif tanpa aplikasi:** pakai kertas kecil/index card, tulis kanji di depan dan arti+bacaan di belakang, kocok dan uji diri tiap hari.
 
-## 📝 Kuis Review 50 Kanji
+## 📝 Kuis Review 40 Kanji
 
 Coba baca dan artikan kanji berikut tanpa buka catatan:
 
