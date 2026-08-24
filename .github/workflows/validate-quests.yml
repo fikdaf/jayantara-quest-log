@@ -31,12 +31,21 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-          cache: pip
+
+      - name: Verify repository files
+        run: |
+          test -f scripts/validate_quests.py
+          test -f scripts/validate_curriculum.py
+          test -f scripts/build_curriculum.py
+          test -d quests
+          test -d data
 
       - name: Validate quest structure
         run: python scripts/validate_quests.py
