@@ -10,6 +10,7 @@ on:
       - 'packages/**'
       - 'apps/**'
       - 'package.json'
+      - 'package-lock.json'
       - 'tsconfig.json'
       - 'README.md'
       - '.github/workflows/validate-quests.yml'
@@ -22,6 +23,7 @@ on:
       - 'packages/**'
       - 'apps/**'
       - 'package.json'
+      - 'package-lock.json'
       - 'tsconfig.json'
       - 'README.md'
       - '.github/workflows/validate-quests.yml'
@@ -52,7 +54,6 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '24'
-          cache: npm
       - name: Verify repository files
         run: |
           test -f schemas/quest-frontmatter.schema.json
@@ -84,13 +85,14 @@ jobs:
           test -f data/progression.yaml
           test -f data/progress-state.example.json
           test -f package.json
+          test -f package-lock.json
           test -f packages/core/package.json
           test -f packages/core/tsconfig.json
           test -f packages/core/src/index.ts
           test -f packages/core/src/index.test.ts
           test -d quests
       - name: Install JavaScript dependencies
-        run: npm install
+        run: npm ci
       - name: Validate schema JSON
         run: |
           python -m json.tool schemas/quest-frontmatter.schema.json > /dev/null
