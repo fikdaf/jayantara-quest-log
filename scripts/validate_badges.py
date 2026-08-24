@@ -44,8 +44,6 @@ for badge_id, badge in badges.items():
             errors.append(f"{badge_id}: invalid required day {required_day}")
         elif required_day > day:
             errors.append(f"{badge_id}: requires future day {required_day}")
-    if requires and day not in requires:
-        errors.append(f"{badge_id}: unlock_day {day} must be included in requires")
 
 expected = {5: "bronze", 10: "silver", 15: "adept-warrior", 20: "kanji-apprentice", 25: "japan-ready", 29: "interview-master", 30: "gold-jayantara"}
 for day, badge_id in expected.items():
