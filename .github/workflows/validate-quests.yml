@@ -29,18 +29,15 @@ jobs:
     name: Validate
     runs-on: ubuntu-latest
     timeout-minutes: 5
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
-
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-
       - name: Verify repository files
         run: |
           test -f schemas/quest-frontmatter.schema.json
@@ -50,6 +47,7 @@ jobs:
           test -f scripts/validate_dependencies.py
           test -f scripts/validate_progression.py
           test -f scripts/validate_badges.py
+          test -f scripts/resolve_progress.py
           test -f scripts/build_curriculum.py
           test -f scripts/calculate_xp.py
           test -f data/badges.yaml
@@ -57,36 +55,30 @@ jobs:
           test -f data/xp-rules.yaml
           test -f data/progression.yaml
           test -d quests
-
       - name: Validate schema JSON
         run: python -m json.tool schemas/quest-frontmatter.schema.json > /dev/null
-
       - name: Validate quest structure
         run: python scripts/validate_quests.py
-
       - name: Validate frontmatter schema
         run: python scripts/check_frontmatter.py
-
       - name: Validate curriculum metadata
         run: python scripts/validate_curriculum.py
-
       - name: Validate prerequisite graph
         run: python scripts/validate_dependencies.py
-
       - name: Validate progression rules
         run: python scripts/validate_progression.py
-
       - name: Validate badge rules
         run: python scripts/validate_badges.py
-
       - name: Validate Python scripts
         run: python -m py_compile scripts/*.py
-
       - name: Calculate XP
         run: python scripts/calculate_xp.py
-
+      - name: Smoke test progress resolver
+        run: |
+          python scripts/resolve_progress.py 1
+          python scripts/resolve_progress.py 1 2 3 4 5
+          python scripts/resolve_progress.py $(seq 1 30)
       - name: Build generated quest index
         run: python scripts/build_curriculum.py
-
       - name: Validate generated index
         run: python -m json.tool data/quests.generated.json > /dev/null
