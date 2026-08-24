@@ -50,6 +50,8 @@ jobs:
           test -f scripts/validate_badges.py
           test -f scripts/resolve_progress.py
           test -f scripts/test_progress.py
+          test -f scripts/complete_quest.py
+          test -f scripts/test_complete_quest.py
           test -f scripts/build_curriculum.py
           test -f scripts/calculate_xp.py
           test -f data/badges.yaml
@@ -80,6 +82,8 @@ jobs:
         run: python -m py_compile scripts/*.py
       - name: Run progress resolver regression tests
         run: python scripts/test_progress.py
+      - name: Run quest completion regression tests
+        run: python scripts/test_complete_quest.py
       - name: Calculate XP
         run: python scripts/calculate_xp.py
       - name: Smoke test progress resolver JSON
