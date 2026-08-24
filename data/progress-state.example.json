@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "completed_quests": [1, 2, 3, 4, 5],
+  "xp": 650,
+  "badges": ["bronze"],
+  "current_day": 6,
+  "current_phase": "novice"
+}
