@@ -49,6 +49,7 @@ jobs:
           test -f scripts/validate_curriculum.py
           test -f scripts/validate_dependencies.py
           test -f scripts/validate_progression.py
+          test -f scripts/validate_badges.py
           test -f scripts/build_curriculum.py
           test -f scripts/calculate_xp.py
           test -f data/badges.yaml
@@ -74,6 +75,9 @@ jobs:
 
       - name: Validate progression rules
         run: python scripts/validate_progression.py
+
+      - name: Validate badge rules
+        run: python scripts/validate_badges.py
 
       - name: Validate Python scripts
         run: python -m py_compile scripts/*.py
