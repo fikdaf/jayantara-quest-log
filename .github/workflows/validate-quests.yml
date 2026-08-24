@@ -22,3 +22,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Validate quest structure
         run: python3 scripts/validate_quests.py
+      - name: Validate curriculum metadata
+        run: python3 scripts/validate_curriculum.py
+      - name: Build generated quest index
+        run: python3 scripts/build_curriculum.py
+      - name: Verify generated index is committed
+        run: git diff --exit-code -- data/quests.generated.json
