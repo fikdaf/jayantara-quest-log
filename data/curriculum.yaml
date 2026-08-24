@@ -1,0 +1,165 @@
+version: 1
+course:
+  id: jayantara-nihongo-master-kit
+  title: JAYANTARA NIHONGO MASTER-KIT
+  duration_days: 30
+  level: N5
+
+phases:
+  - id: foundation
+    name: Foundation
+    days: [1, 2, 3, 4, 5]
+    focus: Hiragana, Katakana, salam, perkenalan, checkpoint pemula
+    reward: rookie
+  - id: novice
+    name: Novice
+    days: [6, 7, 8, 9, 10]
+    focus: Angka, waktu, kalender, benda, verba, simulasi belanja
+    reward: silver
+  - id: adept
+    name: Adept Warrior
+    days: [11, 12, 13, 14, 15]
+    focus: Kata sifat, lokasi, arah, perbandingan, review grammar N5
+    reward: adept-warrior
+  - id: kanji
+    name: Kanji Apprentice
+    days: [16, 17, 18, 19, 20]
+    focus: Kanji dasar N5 dan review spaced repetition
+    reward: kanji-apprentice
+  - id: workplace
+    name: Japan Ready
+    days: [21, 22, 23, 24, 25]
+    focus: Instruksi kerja, keselamatan, industri, kaigo, teknik, magang
+    reward: japan-ready
+  - id: career
+    name: Interview Master
+    days: [26, 27, 28, 29, 30]
+    focus: Rirekisho, mensetsu, etika kerja, roleplay, final assessment
+    reward: gold-jayantara
+
+quests:
+  1:
+    type: lesson
+    title: Gerbang Hiragana Pass
+    badge: rookie-i
+  2:
+    type: lesson
+    title: Lembah Katakana Blitz
+    badge: rookie-ii
+  3:
+    type: lesson
+    title: Salam & Aisatsu Harian
+    badge: rookie-iii
+  4:
+    type: lesson
+    title: Perkenalan Diri (Jikoshoukai)
+    badge: rookie-iv
+  5:
+    type: checkpoint
+    title: BOSS BATTLE 1: Checkpoint Pemula
+    badge: bronze
+    requires: [1, 2, 3, 4]
+  6:
+    type: lesson
+    title: Angka & Jam (Jikan)
+    badge: novice-i
+  7:
+    type: lesson
+    title: Hari, Bulan, & Tanggal
+    badge: novice-ii
+  8:
+    type: lesson
+    title: Kata Benda & Benda Sekitar
+    badge: novice-iii
+  9:
+    type: lesson
+    title: Aktivitas Harian (Verba ~masu)
+    badge: novice-iv
+  10:
+    type: checkpoint
+    title: BOSS BATTLE 2: Misi Pasar & Toko
+    badge: silver
+    requires: [6, 7, 8, 9]
+  11:
+    type: lesson
+    title: Kata Sifat & Tata Bahasa N5 (1)
+    badge: adept-warrior
+  12:
+    type: lesson
+    title: Kata Sifat & Tata Bahasa N5 (2)
+    badge: adept-warrior
+  13:
+    type: lesson
+    title: Kata Sifat & Tata Bahasa N5 (3)
+    badge: adept-warrior
+  14:
+    type: lesson
+    title: Kata Sifat & Tata Bahasa N5 (4)
+    badge: adept-warrior
+  15:
+    type: checkpoint
+    title: Kata Sifat & Tata Bahasa N5 (5)
+    badge: adept-warrior
+    requires: [11, 12, 13, 14]
+  16:
+    type: lesson
+    title: Kanji Dasar N5 (1)
+    badge: kanji-apprentice
+  17:
+    type: lesson
+    title: Kanji Dasar N5 (2)
+    badge: kanji-apprentice
+  18:
+    type: lesson
+    title: Kanji Dasar N5 (3)
+    badge: kanji-apprentice
+  19:
+    type: lesson
+    title: Kanji Dasar N5 (4)
+    badge: kanji-apprentice
+  20:
+    type: checkpoint
+    title: Kanji Dasar N5 (5) — Review Kanji + Flashcard
+    badge: kanji-apprentice
+    requires: [16, 17, 18, 19]
+  21:
+    type: lesson
+    title: Instruksi Kerja & Keselamatan (1)
+    badge: japan-ready
+  22:
+    type: lesson
+    title: Instruksi Kerja & Keselamatan (2)
+    badge: japan-ready
+  23:
+    type: lesson
+    title: Instruksi Kerja & Keselamatan (3)
+    badge: japan-ready
+  24:
+    type: lesson
+    title: Instruksi Kerja & Keselamatan (4)
+    badge: japan-ready
+  25:
+    type: lesson
+    title: Instruksi Kerja & Keselamatan (5)
+    badge: japan-ready
+  26:
+    type: lesson
+    title: Simulasi Mensetsu & Rirekisho (1)
+    badge: interview-master
+  27:
+    type: lesson
+    title: Simulasi Mensetsu & Rirekisho (2)
+    badge: interview-master
+  28:
+    type: lesson
+    title: Simulasi Mensetsu & Rirekisho (3)
+    badge: interview-master
+  29:
+    type: lesson
+    title: Simulasi Mensetsu & Rirekisho (4)
+    badge: interview-master
+  30:
+    type: final_exam
+    title: FINAL BOSS: Trial Exam N5 & Mensetsu
+    badge: gold-jayantara
+    requires: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
