@@ -7,6 +7,7 @@ on:
       - 'data/**'
       - 'schemas/**'
       - 'scripts/**'
+      - 'README.md'
       - '.github/workflows/validate-quests.yml'
   pull_request:
     paths:
@@ -14,6 +15,7 @@ on:
       - 'data/**'
       - 'schemas/**'
       - 'scripts/**'
+      - 'README.md'
       - '.github/workflows/validate-quests.yml'
   workflow_dispatch:
 
@@ -58,6 +60,8 @@ jobs:
           test -f scripts/test_save_progress.py
           test -f scripts/test_complete_progress_persistence.py
           test -f scripts/jayantara.py
+          test -f scripts/quest_details.py
+          test -f scripts/test_quest_details.py
           test -f scripts/test_jayantara_cli.py
           test -f scripts/build_curriculum.py
           test -f scripts/calculate_xp.py
@@ -97,10 +101,16 @@ jobs:
         run: python scripts/test_save_progress.py
       - name: Run completion persistence integration test
         run: python scripts/test_complete_progress_persistence.py
+      - name: Run quest details regression tests
+        run: python scripts/test_quest_details.py
       - name: Run player CLI regression tests
         run: python scripts/test_jayantara_cli.py
       - name: Calculate XP
         run: python scripts/calculate_xp.py
+      - name: Smoke test player CLI
+        run: |
+          python scripts/jayantara.py --state-file /tmp/jayantara-cli.json start
+          python scripts/jayantara.py --state-file /tmp/jayantara-cli.json start --json | python -m json.tool > /dev/null
       - name: Smoke test transactional progress JSON
         run: |
           python scripts/complete_progress.py --json 1 > /tmp/progress.json
