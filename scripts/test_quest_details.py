@@ -16,8 +16,19 @@ def main():
     assert quest["title"] == "Gerbang Hiragana Pass"
     assert quest["skills"] == ["hiragana", "pronunciation", "reading"]
     assert quest["prerequisites"] == []
+    assert quest["reward"]["badge"] == "rookie-i"
 
-    print("Quest details tests passed.")
+    quest20 = module.parse(20)
+    assert quest20["id"] == "day-20"
+    assert isinstance(quest20["skills"], list)
+    assert isinstance(quest20["reward"], dict)
+    assert "badge" in quest20["reward"]
+
+    quest30 = module.parse(30)
+    assert quest30["id"] == "day-30"
+    assert quest30["prerequisites"] == ["day-29"]
+
+    print("Quest details tests passed: nested reward and prerequisite metadata verified.")
 
 
 if __name__ == "__main__":
