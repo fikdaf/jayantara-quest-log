@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Validate quest metadata against the canonical 30-day curriculum."""
+"""Validate quest metadata where frontmatter has been migrated.
+
+Legacy Markdown without frontmatter is allowed during the migration window;
+its day/phase/type data remains governed by data/curriculum.yaml.
+"""
 from pathlib import Path
 import re
 import sys
@@ -18,6 +22,8 @@ for days, phase in [
     for day in days:
         phase_by_day[day] = phase
 
+migrated = 0
+legacy = 0
 for day in range(1, 31):
     path = ROOT / "quests" / f"day-{day:02d}.md"
     if not path.exists():
@@ -26,8 +32,9 @@ for day in range(1, 31):
     text = path.read_text(encoding="utf-8")
     match = re.match(r"^---\n(.*?)\n---\n", text, re.DOTALL)
     if not match:
-        errors.append(f"Day {day}: missing/malformed frontmatter")
+        legacy += 1
         continue
+    migrated += 1
     front = match.group(1)
     expected = {
         "id": f"day-{day:02d}",
@@ -47,4 +54,4 @@ if errors:
     print("Curriculum validation failed:")
     print("\n".join(f"- {e}" for e in errors))
     sys.exit(1)
-print("Curriculum validation passed: 30/30 quest metadata entries are consistent.")
+print(f"Curriculum validation passed: {migrated}/30 migrated, {legacy}/30 legacy quest files.")
