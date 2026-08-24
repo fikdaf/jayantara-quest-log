@@ -1,3 +1,17 @@
+---
+id: day-29
+day: 29
+title: Simulasi Mensetsu & Rirekisho (4) — Latihan Wawancara Penuh (Roleplay)
+type: lesson
+phase: career
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: interview-master
+---
+
 # Day 29: Simulasi Mensetsu & Rirekisho (4) — Latihan Wawancara Penuh (Roleplay)
 
 [← Kembali ke README](../README.md)

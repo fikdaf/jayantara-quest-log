@@ -1,3 +1,17 @@
+---
+id: day-23
+day: 23
+title: Instruksi Kerja & Keselamatan (3) — Istilah Teknik/TG
+type: lesson
+phase: workplace
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: japan-ready
+---
+
 # Day 23: Instruksi Kerja & Keselamatan (3) — Istilah Teknik/TG
 
 [← Kembali ke README](../README.md)

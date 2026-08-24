@@ -1,3 +1,17 @@
+---
+id: day-17
+day: 17
+title: Kanji Dasar N5 (2) — Kanji Hari & Waktu
+type: lesson
+phase: kanji
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: kanji-apprentice
+---
+
 # Day 17: Kanji Dasar N5 (2) — Kanji Hari & Waktu
 
 [← Kembali ke README](../README.md)

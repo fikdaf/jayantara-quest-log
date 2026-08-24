@@ -1,3 +1,17 @@
+---
+id: day-27
+day: 27
+title: Simulasi Mensetsu & Rirekisho (2) — Pertanyaan Umum Wawancara Kerja
+type: lesson
+phase: career
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: interview-master
+---
+
 # Day 27: Simulasi Mensetsu & Rirekisho (2) — Pertanyaan Umum Wawancara Kerja
 
 [← Kembali ke README](../README.md)

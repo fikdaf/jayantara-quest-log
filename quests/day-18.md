@@ -1,3 +1,17 @@
+---
+id: day-18
+day: 18
+title: Kanji Dasar N5 (3) — Kanji Arah & Tempat
+type: lesson
+phase: kanji
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: kanji-apprentice
+---
+
 # Day 18: Kanji Dasar N5 (3) — Kanji Arah & Tempat
 
 [← Kembali ke README](../README.md)

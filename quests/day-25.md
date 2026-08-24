@@ -1,3 +1,17 @@
+---
+id: day-25
+day: 25
+title: Instruksi Kerja & Keselamatan (5) — Istilah Keselamatan Kerja (Anzen)
+type: lesson
+phase: workplace
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: japan-ready
+---
+
 # Day 25: Instruksi Kerja & Keselamatan (5) — Istilah Keselamatan Kerja (Anzen)
 
 [← Kembali ke README](../README.md)

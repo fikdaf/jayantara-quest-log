@@ -1,3 +1,17 @@
+---
+id: day-04
+day: 4
+title: Perkenalan Diri (Jikoshoukai)
+type: lesson
+phase: foundation
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: rookie-iv
+---
+
 # Day 04: Perkenalan Diri (Jikoshoukai)
 
 [← Kembali ke README](../README.md)

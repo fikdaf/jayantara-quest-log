@@ -1,3 +1,17 @@
+---
+id: day-09
+day: 9
+title: Aktivitas Harian (Verba ~masu)
+type: lesson
+phase: novice
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: novice-iv
+---
+
 # Day 09: Aktivitas Harian (Verba ~masu)
 
 [← Kembali ke README](../README.md)

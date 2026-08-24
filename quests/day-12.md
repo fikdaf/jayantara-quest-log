@@ -1,3 +1,17 @@
+---
+id: day-12
+day: 12
+title: Kata Sifat & Tata Bahasa N5 (2)
+type: lesson
+phase: adept
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: adept-warrior
+---
+
 # Day 12: Kata Sifat & Tata Bahasa N5 (2)
 
 [← Kembali ke README](../README.md)

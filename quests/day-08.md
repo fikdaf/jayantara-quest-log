@@ -1,3 +1,17 @@
+---
+id: day-08
+day: 8
+title: Kata Benda & Benda Sekitar
+type: lesson
+phase: novice
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: novice-iii
+---
+
 # Day 08: Kata Benda & Benda Sekitar
 
 [← Kembali ke README](../README.md)

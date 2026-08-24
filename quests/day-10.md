@@ -1,3 +1,17 @@
+---
+id: day-10
+day: 10
+title: ⚔️ BOSS BATTLE 2 — Misi Pasar & Toko
+type: checkpoint
+phase: novice
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: [day-06, day-07, day-08, day-09]
+reward:
+  badge: silver
+---
+
 # Day 10: ⚔️ BOSS BATTLE 2 — Misi Pasar & Toko
 
 [← Kembali ke README](../README.md)

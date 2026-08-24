@@ -1,3 +1,17 @@
+---
+id: day-26
+day: 26
+title: Simulasi Mensetsu & Rirekisho (1) — Menyusun CV/Rirekisho ala Jepang
+type: lesson
+phase: career
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: interview-master
+---
+
 # Day 26: Simulasi Mensetsu & Rirekisho (1) — Menyusun CV/Rirekisho ala Jepang
 
 [← Kembali ke README](../README.md)

@@ -1,3 +1,17 @@
+---
+id: day-28
+day: 28
+title: Simulasi Mensetsu & Rirekisho (3) — Etika Berhadapan dengan Shachou
+type: lesson
+phase: career
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: interview-master
+---
+
 # Day 28: Simulasi Mensetsu & Rirekisho (3) — Etika Berhadapan dengan Shachou
 
 [← Kembali ke README](../README.md)

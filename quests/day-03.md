@@ -1,3 +1,17 @@
+---
+id: day-03
+day: 3
+title: Salam & Aisatsu Harian
+type: lesson
+phase: foundation
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: rookie-iii
+---
+
 # Day 03: Salam & Aisatsu Harian
 
 [← Kembali ke README](../README.md)

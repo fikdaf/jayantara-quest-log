@@ -1,3 +1,17 @@
+---
+id: day-16
+day: 16
+title: Kanji Dasar N5 (1) — Kanji Angka
+type: lesson
+phase: kanji
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: kanji-apprentice
+---
+
 # Day 16: Kanji Dasar N5 (1) — Kanji Angka
 
 [← Kembali ke README](../README.md)

@@ -1,3 +1,17 @@
+---
+id: day-02
+day: 2
+title: Lembah Katakana Blitz
+type: lesson
+phase: foundation
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: rookie-ii
+---
+
 # Day 02: Lembah Katakana Blitz
 
 [← Kembali ke README](../README.md)

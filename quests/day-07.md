@@ -1,3 +1,17 @@
+---
+id: day-07
+day: 7
+title: Hari, Bulan, & Tanggal
+type: lesson
+phase: novice
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: novice-ii
+---
+
 # Day 07: Hari, Bulan, & Tanggal
 
 [← Kembali ke README](../README.md)

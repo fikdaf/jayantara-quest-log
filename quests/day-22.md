@@ -1,3 +1,17 @@
+---
+id: day-22
+day: 22
+title: Instruksi Kerja & Keselamatan (2) — Istilah Kaigo (Perawat Lansia)
+type: lesson
+phase: workplace
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: japan-ready
+---
+
 # Day 22: Instruksi Kerja & Keselamatan (2) — Istilah Kaigo (Perawat Lansia)
 
 [← Kembali ke README](../README.md)

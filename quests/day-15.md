@@ -1,3 +1,17 @@
+---
+id: day-15
+day: 15
+title: Kata Sifat & Tata Bahasa N5 (5)
+type: checkpoint
+phase: adept
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: [day-11, day-12, day-13, day-14]
+reward:
+  badge: adept-warrior
+---
+
 # Day 15: Kata Sifat & Tata Bahasa N5 (5)
 
 [← Kembali ke README](../README.md)

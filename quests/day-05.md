@@ -1,3 +1,17 @@
+---
+id: day-05
+day: 5
+title: ⚔️ BOSS BATTLE 1 — Checkpoint Pemula
+type: checkpoint
+phase: foundation
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: [day-01, day-02, day-03, day-04]
+reward:
+  badge: bronze
+---
+
 # Day 05: ⚔️ BOSS BATTLE 1 — Checkpoint Pemula
 
 [← Kembali ke README](../README.md)

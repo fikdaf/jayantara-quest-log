@@ -1,3 +1,17 @@
+---
+id: day-19
+day: 19
+title: Kanji Dasar N5 (4) — Kanji Manusia & Keluarga
+type: lesson
+phase: kanji
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: kanji-apprentice
+---
+
 # Day 19: Kanji Dasar N5 (4) — Kanji Manusia & Keluarga
 
 [← Kembali ke README](../README.md)

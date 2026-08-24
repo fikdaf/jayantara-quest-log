@@ -1,3 +1,17 @@
+---
+id: day-24
+day: 24
+title: Instruksi Kerja & Keselamatan (4) — Istilah Program Magang
+type: lesson
+phase: workplace
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: japan-ready
+---
+
 # Day 24: Instruksi Kerja & Keselamatan (4) — Istilah Program Magang
 
 [← Kembali ke README](../README.md)

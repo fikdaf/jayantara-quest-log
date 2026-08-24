@@ -1,3 +1,17 @@
+---
+id: day-21
+day: 21
+title: Instruksi Kerja & Keselamatan (1) — Istilah Industri
+type: lesson
+phase: workplace
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: japan-ready
+---
+
 # Day 21: Instruksi Kerja & Keselamatan (1) — Istilah Industri
 
 [← Kembali ke README](../README.md)

@@ -1,3 +1,17 @@
+---
+id: day-06
+day: 6
+title: Angka & Jam (Jikan)
+type: lesson
+phase: novice
+level: N5
+estimated_minutes: 30
+skills: []
+prerequisites: []
+reward:
+  badge: novice-i
+---
+
 # Day 06: Angka & Jam (Jikan)
 
 [← Kembali ke README](../README.md)
