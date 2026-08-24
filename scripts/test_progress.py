@@ -34,7 +34,7 @@ def main():
     state = module.resolve([2])
     check(state["completed_quests"] == [2], "resolver accepts recorded completion independently")
     check(state["current_day"] == 1, "missing day 1 remains current")
-    check(state["badges"] == [], "day 2 alone does not unlock day 1 badge")
+    check(state["badges"] == ["rookie-ii"], "day 2 unlocks only its own badge")
 
     state = module.resolve([1, 2, 3, 4, 5])
     check(state["current_day"] == 6, "day after foundation")
