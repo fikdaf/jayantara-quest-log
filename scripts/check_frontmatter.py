@@ -30,15 +30,16 @@ def block(text):
 
 
 def value(front, key):
-    match = re.search(rf"^{re.escape(key)}:\s*(.*?)\s*$", front, re.MULTILINE)
-    return match.group(1) if match else None
+    match = re.search(rf"^{re.escape(key)}:[ \t]*(.*)$", front, re.MULTILINE)
+    return match.group(1).strip() if match else None
 
 
 def list_items(front, key):
-    """Support both inline YAML lists and indented block lists."""
-    match = re.search(rf"^{re.escape(key)}:\s*(.*)$", front, re.MULTILINE)
+    """Support inline YAML lists and indented block lists without consuming newlines."""
+    match = re.search(rf"^{re.escape(key)}:[ \t]*(.*)$", front, re.MULTILINE)
     if not match:
         return None
+
     inline = match.group(1).strip()
     if inline:
         if not (inline.startswith("[") and inline.endswith("]")):
@@ -46,18 +47,18 @@ def list_items(front, key):
         body = inline[1:-1].strip()
         return [item.strip().strip("\"'") for item in body.split(",") if item.strip()]
 
-    tail = front[match.end():]
     items = []
-    for line in tail.splitlines():
+    for line in front[match.end():].splitlines():
         if not line.strip():
             continue
         if re.match(r"^\s+-\s+", line):
             items.append(re.sub(r"^\s+-\s+", "", line).strip().strip("\"'"))
             continue
-        if re.match(r"^\S[\w-]*:", line):
+        if re.match(r"^\S[\w-]*:[ \t]*", line):
             break
         if not line.startswith(" "):
             break
+
     return items if items else None
 
 
@@ -110,13 +111,13 @@ for day in range(1, 31):
             if prereq and not re.fullmatch(r"day-(0[1-9]|[12][0-9]|30)", prereq):
                 errors.append(f"Day {day}: invalid prerequisite '{prereq}'")
 
-    badge = re.search(r"^\s+badge:\s*([^\s#]+)\s*$", front, re.MULTILINE)
+    badge = re.search(r"^\s+badge:[ \t]*([^\s#]+)[ \t]*$", front, re.MULTILINE)
     if not badge:
         errors.append(f"Day {day}: missing reward.badge")
     elif badge.group(1) not in BADGES:
         errors.append(f"Day {day}: unknown badge '{badge.group(1)}'")
 
-    heading = re.search(rf"^# Day {day:02d}:\s*(.+)$", text, re.MULTILINE)
+    heading = re.search(rf"^# Day {day:02d}:[ \t]*(.+)$", text, re.MULTILINE)
     title = value(front, "title")
     if not heading:
         errors.append(f"Day {day}: missing title heading")
