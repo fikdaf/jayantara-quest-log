@@ -1,3 +1,17 @@
+---
+id: day-01
+day: 1
+title: Gerbang Hiragana Pass
+type: lesson
+phase: foundation
+level: N5
+estimated_minutes: 45
+skills: [hiragana, pronunciation, reading]
+prerequisites: []
+reward:
+  badge: rookie-i
+---
+
 # Day 01: Gerbang Hiragana Pass
 
 [← Kembali ke README](../README.md)
