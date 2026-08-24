@@ -13,18 +13,42 @@ on:
       - 'data/**'
       - 'scripts/**'
       - '.github/workflows/validate-quests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-quests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
+    name: Validate
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+
       - name: Validate quest structure
-        run: python3 scripts/validate_quests.py
+        run: python scripts/validate_quests.py
+
       - name: Validate curriculum metadata
-        run: python3 scripts/validate_curriculum.py
+        run: python scripts/validate_curriculum.py
+
+      - name: Validate Python scripts
+        run: python -m py_compile scripts/*.py
+
       - name: Build generated quest index
-        run: python3 scripts/build_curriculum.py
-      - name: Verify generated index is valid JSON
-        run: python3 -m json.tool data/quests.generated.json > /dev/null
+        run: python scripts/build_curriculum.py
+
+      - name: Validate generated index
+        run: python -m json.tool data/quests.generated.json > /dev/null
