@@ -60,18 +60,11 @@ for day in range(1, 31):
     if quest_id in quests:
         errors.append(f"Day {day}: duplicate quest id '{quest_id}'")
         continue
-    quests[quest_id] = {
-        "day": day,
-        "type": quest_type.group(1).strip(),
-        "prerequisites": prerequisites,
-    }
+    quests[quest_id] = {"day": day, "type": quest_type.group(1).strip(), "prerequisites": prerequisites}
 
 for quest_id, meta in quests.items():
     day = meta["day"]
-    declared = meta["prerequisites"]
-    if day > 1 and f"day-{day - 1:02d}" not in declared:
-        errors.append(f"{quest_id}: must declare prerequisite 'day-{day - 1:02d}'")
-    for prereq in declared:
+    for prereq in meta["prerequisites"]:
         if prereq not in quests:
             errors.append(f"{quest_id}: prerequisite '{prereq}' does not exist")
             continue
@@ -83,4 +76,4 @@ if errors:
     print("\n".join(f"- {e}" for e in errors))
     sys.exit(1)
 
-print("Dependency validation passed: every Day N requires Day N-1 and all declared prerequisites are valid.")
+print("Dependency validation passed: declared prerequisites are valid; sequential Day N -> Day N-1 is enforced by complete_quest.")
