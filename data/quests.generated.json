@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "source": "quests/*.md",
+  "generated": true,
+  "note": "Generated curriculum index. Run scripts/build_curriculum.py after quest frontmatter changes."
+}
