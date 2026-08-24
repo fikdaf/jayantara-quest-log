@@ -6,28 +6,78 @@
 
 ## 🧭 Struktur Project
 
-Repo ini menggunakan **Markdown sebagai source content** dan metadata terstruktur untuk curriculum, badge, dan validasi. Dengan begitu materi tetap mudah dibaca manusia sekaligus siap dipakai oleh website, quiz engine, progress tracker, dan sistem gamifikasi.
+Repo ini menggunakan **Markdown sebagai source content** dan metadata terstruktur untuk curriculum, badge, progression, dan validasi. Dengan begitu materi tetap mudah dibaca manusia sekaligus siap dipakai oleh website, quiz engine, progress tracker, dan sistem gamifikasi.
 
 ```text
 jayantara-quest-log/
 ├── README.md
 ├── LICENSE.md
 ├── quests/                    ← 30 quest pembelajaran
-│   ├── day-01.md
-│   ├── ...
-│   └── day-30.md
-├── data/                      ← source of truth untuk struktur course
-│   ├── curriculum.yaml
-│   └── badges.yaml
-├── scripts/                   ← content tooling
-│   └── validate_quests.py
+├── data/                      ← source of truth curriculum, rewards, progression
+├── schemas/                   ← JSON schemas untuk content & progress state
+├── scripts/                   ← validation, progression engine & CLI
 └── .github/workflows/         ← validasi otomatis
-    └── validate-quests.yml
 ```
 
 ### Content model
 
-Setiap quest adalah Markdown yang berisi materi, contoh, latihan, checklist, catatan pribadi, dan status. `data/curriculum.yaml` mendefinisikan tipe quest, fase, dependency, dan reward; `data/badges.yaml` mendefinisikan badge dan requirement. Struktur ini sengaja dipisahkan agar frontend tidak perlu hard-code isi Day 01–30.
+Setiap quest adalah Markdown yang berisi materi, contoh, latihan, checklist, catatan pribadi, dan status. Metadata frontmatter menjadi source of truth untuk quest. `data/curriculum.yaml`, `data/badges.yaml`, `data/progression.yaml`, dan `data/xp-rules.yaml` mendefinisikan aturan aplikasi secara terpisah.
+
+---
+
+## 🎮 CLI Progress Tracker
+
+JAYANTARA memiliki CLI sederhana untuk menjalankan progression engine secara langsung.
+
+### Mulai quest aktif
+
+```bash
+python3 scripts/jayantara.py start
+```
+
+Menampilkan Day aktif beserta title, phase, type, level, estimasi waktu, skills, dan prerequisite.
+
+Untuk output terstruktur:
+
+```bash
+python3 scripts/jayantara.py start --json
+```
+
+### Lihat progress
+
+```bash
+python3 scripts/jayantara.py status
+```
+
+### Selesaikan quest
+
+```bash
+python3 scripts/jayantara.py complete 1
+```
+
+Completion mengikuti aturan **sequential progression**: Day N hanya dapat diselesaikan setelah Day N-1 selesai. State canonical kemudian dihitung ulang untuk XP, badge, phase, dan current day, lalu disimpan secara atomic.
+
+Untuk memakai file state lain:
+
+```bash
+python3 scripts/jayantara.py --state-file /tmp/player.json status
+```
+
+State default berada di `data/state/progress-state.json`. File runtime tersebut tidak perlu di-commit ke repository.
+
+### Engine-level commands
+
+Jika membutuhkan output tanpa persistence:
+
+```bash
+python3 scripts/complete_progress.py --json 5 1 2 3 4
+```
+
+Jika ingin menyimpan state:
+
+```bash
+python3 scripts/complete_progress.py --save --state-file /tmp/player.json 5 1 2 3 4
+```
 
 ---
 
@@ -47,7 +97,7 @@ Setiap quest adalah Markdown yang berisi materi, contoh, latihan, checklist, cat
 
 `[                                ] 0% (0/30 QUESTS CLEAR!)`
 
-Progress pengguna sebaiknya dihitung oleh aplikasi/automation dari status quest, bukan dipelihara sebagai angka manual. Untuk saat ini checkbox pada masing-masing quest tetap menjadi mekanisme progress yang sederhana dan transparan.
+Progress pengguna dihitung oleh progression engine dari canonical state, bukan dipelihara sebagai angka manual.
 
 ---
 
@@ -97,7 +147,7 @@ Progress pengguna sebaiknya dihitung oleh aplikasi/automation dari status quest,
 | 29 | Simulasi Mensetsu & Rirekisho (4) | Lesson |
 | 30 | 🏆 FINAL BOSS: Trial Exam N5 & Mensetsu | Final Exam |
 
-Detail progression, dependency, dan badge tersedia di [`data/curriculum.yaml`](data/curriculum.yaml) dan [`data/badges.yaml`](data/badges.yaml).
+Detail progression, dependency, dan badge tersedia di `data/curriculum.yaml` dan `data/badges.yaml`.
 
 ---
 
@@ -115,30 +165,43 @@ Detail progression, dependency, dan badge tersedia di [`data/curriculum.yaml`](d
 
 ---
 
-## 🧪 Validasi Content
+## 🧪 Validasi & Development
 
-Setiap perubahan pada `quests/`, `data/`, atau tooling akan menjalankan GitHub Actions untuk memastikan 30 quest tersedia dan mempertahankan section wajib:
+Semua perubahan pada `quests/`, `data/`, `schemas/`, atau `scripts/` divalidasi oleh GitHub Actions. Suite mencakup frontmatter, curriculum, dependency graph, progression, badge rules, progress state, persistence, dan CLI.
 
-- `Materi & Output Skill`
-- `Checklist Belajar Hari Ini`
-- `Catatan Pribadi`
-- `Status`
-
-Validator dapat dijalankan lokal dengan:
+Validator utama:
 
 ```bash
 python3 scripts/validate_quests.py
+python3 scripts/check_frontmatter.py
+python3 scripts/validate_curriculum.py
+python3 scripts/validate_dependencies.py
+python3 scripts/validate_progression.py
+python3 scripts/validate_badges.py
+```
+
+Regression suite:
+
+```bash
+python3 scripts/test_progress.py
+python3 scripts/test_complete_quest.py
+python3 scripts/test_complete_progress.py
+python3 scripts/test_save_progress.py
+python3 scripts/test_complete_progress_persistence.py
+python3 scripts/test_quest_details.py
+python3 scripts/test_jayantara_cli.py
 ```
 
 ---
 
-## 🚀 Cara Pakai
+## 🚀 Cara Belajar
 
-1. Buka `quests/day-01.md` dan mulai belajar.
-2. Selesaikan checklist quest.
-3. Tandai `Quest selesai` ketika seluruh target hari tersebut selesai.
-4. Lanjut ke quest berikutnya; checkpoint dan final exam memiliki dependency yang tercatat di curriculum.
-5. Untuk pengembangan aplikasi, gunakan `data/curriculum.yaml` dan `data/badges.yaml` sebagai metadata terstruktur.
+1. Jalankan `python3 scripts/jayantara.py start`.
+2. Buka quest Day yang ditampilkan dan kerjakan materinya.
+3. Selesaikan checklist belajar.
+4. Jalankan `python3 scripts/jayantara.py complete N` setelah target hari selesai.
+5. Lanjut ke Day berikutnya. Sistem akan menolak quest yang dilompati.
+6. Gunakan `status` untuk melihat XP, badge, phase, dan current day.
 
 ---
 
@@ -146,4 +209,4 @@ python3 scripts/validate_quests.py
 
 ---
 
-<sub>© 2026 LPK JAYANTARA. All Rights Reserved. Materi ini dilindungi hak cipta — dilarang menyalin, mendistribusikan ulang, atau memodifikasi tanpa izin tertulis. Lihat [LICENSE.md](LICENSE.md).</sub>
+<sub>© 2026 LPK JAYANTARA. All Rights Reserved. Materi ini dilindungi hak cipta — dilarang menyalin, mendistribusikan ulang, atau memodifikasi tanpa izin tertulis. Lihat LICENSE.md.</sub>
