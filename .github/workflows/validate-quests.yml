@@ -92,7 +92,7 @@ jobs:
           test -f packages/core/src/index.test.ts
           test -d quests
       - name: Install JavaScript dependencies
-        run: npm ci
+        run: npm install --ignore-scripts --no-audit --no-fund
       - name: Validate schema JSON
         run: |
           python -m json.tool schemas/quest-frontmatter.schema.json > /dev/null
