@@ -1,0 +1,53 @@
+name: Platform Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/platform-build.yml'
+  workflow_dispatch:
+
+jobs:
+  web:
+    name: Web / PWA
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace apps/web
+
+  desktop:
+    name: Desktop
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace apps/web
+
+  mobile:
+    name: Mobile validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: test -f apps/mobile/README.md
