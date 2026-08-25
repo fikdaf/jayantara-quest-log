@@ -7,10 +7,11 @@
   "scripts": {
     "build:core": "tsc -p packages/core/tsconfig.json",
     "test:core": "npm run build:core && node --test packages/core/dist/*.test.js",
-    "test": "npm run test:core"
+    "test": "npm run test:core",
+    "ci": "npm ci && npm test"
   },
   "devDependencies": {
-    "@types/node": "^24.3.0",
-    "typescript": "^5.9.2"
+    "@types/node": "24.13.3",
+    "typescript": "5.9.2"
   }
 }
