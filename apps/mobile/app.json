@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "JAYANTARA",
+    "slug": "jayantara",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "android": {"package": "com.jayantara.quest"},
+    "ios": {"bundleIdentifier": "com.jayantara.quest"}
+  }
+}
