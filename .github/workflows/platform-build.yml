@@ -20,12 +20,11 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-          cache: npm
-      - run: npm ci
+      - run: npm install --ignore-scripts --no-audit --no-fund
       - run: npm run build --workspace apps/web
 
   desktop:
-    name: Desktop
+    name: Desktop (${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
@@ -36,8 +35,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-          cache: npm
-      - run: npm ci
+      - run: npm install --ignore-scripts --no-audit --no-fund
       - run: npm run build --workspace apps/web
 
   mobile:
@@ -48,6 +46,5 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-          cache: npm
-      - run: npm ci
+      - run: npm install --ignore-scripts --no-audit --no-fund
       - run: test -f apps/mobile/README.md
