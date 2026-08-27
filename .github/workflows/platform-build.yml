@@ -20,8 +20,11 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-      - run: npm install --package-lock=false --ignore-scripts --no-audit --no-fund
-      - run: npm run build --workspace apps/web
+      - name: Install all workspace dependencies
+        run: npm install --workspaces --include-workspace-root --package-lock=false --ignore-scripts --no-audit --no-fund
+      - name: Build web
+        working-directory: apps/web
+        run: npm run build
 
   desktop:
     name: Desktop (${{ matrix.os }})
@@ -35,8 +38,11 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-      - run: npm install --package-lock=false --ignore-scripts --no-audit --no-fund
-      - run: npm run build --workspace apps/web
+      - name: Install all workspace dependencies
+        run: npm install --workspaces --include-workspace-root --package-lock=false --ignore-scripts --no-audit --no-fund
+      - name: Build web shell
+        working-directory: apps/web
+        run: npm run build
 
   mobile:
     name: Mobile validation
@@ -46,5 +52,8 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-      - run: npm install --package-lock=false --ignore-scripts --no-audit --no-fund
-      - run: test -f apps/mobile/README.md
+      - name: Install all workspace dependencies
+        run: npm install --workspaces --include-workspace-root --package-lock=false --ignore-scripts --no-audit --no-fund
+      - name: Validate mobile package
+        working-directory: apps/mobile
+        run: node -e "const p=require('./package.json'); if(p.name!=='@jayantara/mobile'||!p.dependencies?.expo||!p.dependencies?.react||!p.dependencies?.['react-native']) process.exit(1); console.log('mobile package manifest OK')"
