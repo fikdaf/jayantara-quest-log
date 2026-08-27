@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-      - run: npm install --ignore-scripts --no-audit --no-fund
+      - run: npm install --package-lock=false --ignore-scripts --no-audit --no-fund
       - run: npm run build --workspace apps/web
 
   desktop:
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-      - run: npm install --ignore-scripts --no-audit --no-fund
+      - run: npm install --package-lock=false --ignore-scripts --no-audit --no-fund
       - run: npm run build --workspace apps/web
 
   mobile:
@@ -46,5 +46,5 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-      - run: npm install --ignore-scripts --no-audit --no-fund
+      - run: npm install --package-lock=false --ignore-scripts --no-audit --no-fund
       - run: test -f apps/mobile/README.md
