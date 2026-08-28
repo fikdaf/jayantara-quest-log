@@ -27,6 +27,15 @@ jobs:
       - name: Build web
         working-directory: apps/web
         run: npm run build
+      - name: Validate PWA output
+        working-directory: apps/web
+        run: node -e "const fs=require('fs'); for (const f of ['dist/index.html','dist/manifest.webmanifest','dist/sw.js','dist/icons/icon.svg']) { if (!fs.existsSync(f)) throw new Error('Missing '+f); } console.log('PWA output OK')"
+      - name: Upload web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jayantara-web-pwa
+          path: apps/web/dist
+          if-no-files-found: error
 
   desktop:
     name: Desktop (${{ matrix.os }})
