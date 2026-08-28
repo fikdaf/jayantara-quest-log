@@ -1,0 +1,19 @@
+{
+  "name": "JAYANTARA — Nihongo Master-Kit",
+  "short_name": "JAYANTARA",
+  "description": "Progressive Japanese quest learning app.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
