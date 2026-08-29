@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "main": "main.cjs",
   "scripts": {
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "package": "npm run build && electron-builder --config electron-builder.yml"
   },
   "devDependencies": {
-    "electron": "^38.1.0",
-    "electron-builder": "^26.0.12"
+    "electron": "38.1.0",
+    "electron-builder": "26.0.12"
   }
 }
