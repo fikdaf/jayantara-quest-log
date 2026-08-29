@@ -51,11 +51,19 @@ jobs:
           node-version: 24
       - name: Install all workspace dependencies
         run: npm install --workspaces --include-workspace-root --package-lock=false --ignore-scripts --no-audit --no-fund
+      - name: Restore Electron runtime
+        run: npm rebuild electron --workspace @jayantara/desktop --ignore-scripts=false
       - name: Build core package
         run: npm run build:core
-      - name: Build web shell
-        working-directory: apps/web
-        run: npm run build
+      - name: Package desktop application
+        working-directory: apps/desktop
+        run: npm run package
+      - name: Upload desktop artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jayantara-desktop-${{ matrix.os }}
+          path: apps/desktop/release/*
+          if-no-files-found: error
 
   mobile:
     name: Mobile validation
