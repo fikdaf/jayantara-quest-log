@@ -4,24 +4,57 @@
 
 ---
 
-## 🧭 Struktur Project
+## 🚀 Aplikasi lintas platform
 
-Repo ini menggunakan **Markdown sebagai source content** dan metadata terstruktur untuk curriculum, badge, progression, dan validasi. Dengan begitu materi tetap mudah dibaca manusia sekaligus siap dipakai oleh website, quiz engine, progress tracker, dan sistem gamifikasi.
+JAYANTARA sekarang disiapkan sebagai aplikasi **Web/PWA, Windows, macOS, Linux, Android, dan iOS** dengan curriculum dan progression engine yang sama. Build dan test dapat dilakukan di **GitHub Actions**; pengguna tidak perlu memasang repository di komputer untuk memakai release aplikasi.
 
-```text
-jayantara-quest-log/
-├── README.md
-├── LICENSE.md
-├── quests/                    ← 30 quest pembelajaran
-├── data/                      ← source of truth curriculum, rewards, progression
-├── schemas/                   ← JSON schemas untuk content & progress state
-├── scripts/                   ← validation, progression engine & CLI
-└── .github/workflows/         ← validasi otomatis
+| Platform | Cara penggunaan/pemasangan |
+|---|---|
+| 🌐 Browser | Buka alamat Web/PWA deployment. Tidak perlu instalasi. |
+| 📱 Android | Gunakan APK/release Android yang dipublikasikan; buka file APK, izinkan pemasangan dari sumber yang dipercaya bila diminta, lalu install. |
+| 🍎 iPhone/iPad | Gunakan build iOS yang dipublikasikan melalui TestFlight/App Store. Instal TestFlight bila diperlukan, lalu buka invitation/build JAYANTARA. |
+| 🪟 Windows | Unduh installer `.exe` dari GitHub Release, jalankan installer, lalu buka JAYANTARA Quest Log dari Start Menu/Desktop. |
+| 🍎 macOS | Unduh `.dmg`, buka, lalu seret JAYANTARA Quest Log ke Applications. Jika macOS menampilkan peringatan keamanan, gunakan pengaturan Privacy & Security untuk mengizinkan aplikasi yang memang Anda percaya. |
+| 🐧 Linux | Unduh `.AppImage`, beri izin execute (`chmod +x *.AppImage`), lalu jalankan file tersebut. |
+
+> **Catatan release:** artifact aplikasi hanya dianggap siap dipakai setelah workflow release selesai GREEN. Untuk iOS/Android, distribusi produksi membutuhkan kredensial/signing dan akun store yang sesuai; repository saja tidak dapat menyediakan kredensial tersebut.
+
+## 🧑‍💻 Menjalankan dari source
+
+### Prasyarat
+
+- Python 3.12+ untuk engine/validator legacy.
+- Node.js 24+ untuk Web/Desktop workspace.
+- npm dengan `package-lock.json` yang sinkron.
+
+Clone repository:
+
+```bash
+git clone https://github.com/fikdaf/jayantara-quest-log.git
+cd jayantara-quest-log
+npm ci
 ```
 
-### Content model
+### Web/PWA development
 
-Setiap quest adalah Markdown yang berisi materi, contoh, latihan, checklist, catatan pribadi, dan status. Metadata frontmatter menjadi source of truth untuk quest. `data/curriculum.yaml`, `data/badges.yaml`, `data/progression.yaml`, dan `data/xp-rules.yaml` mendefinisikan aturan aplikasi secara terpisah.
+```bash
+npm run build --workspace @jayantara/web
+```
+
+Hasil production berada di `apps/web/dist/`. PWA mencakup manifest, service worker, dan icon aplikasi.
+
+### Desktop development/build
+
+```bash
+npm run build --workspace @jayantara/web
+npm run package --workspace @jayantara/desktop
+```
+
+Packaging menggunakan Electron Builder dan target release desktop adalah Windows NSIS/EXE, macOS DMG, dan Linux AppImage.
+
+### GitHub Actions release
+
+Build release lintas platform dapat dijalankan dari GitHub Actions secara manual dengan tag, misalnya `v0.1.0`. Workflow menghasilkan artifact per OS dan mempublikasikannya ke GitHub Release jika konfigurasi repository mengizinkan publish.
 
 ---
 
@@ -67,15 +100,8 @@ State default berada di `data/state/progress-state.json`. File runtime tersebut 
 
 ### Engine-level commands
 
-Jika membutuhkan output tanpa persistence:
-
 ```bash
 python3 scripts/complete_progress.py --json 5 1 2 3 4
-```
-
-Jika ingin menyimpan state:
-
-```bash
 python3 scripts/complete_progress.py --save --state-file /tmp/player.json 5 1 2 3 4
 ```
 
@@ -98,8 +124,6 @@ python3 scripts/complete_progress.py --save --state-file /tmp/player.json 5 1 2 
 `[                                ] 0% (0/30 QUESTS CLEAR!)`
 
 Progress pengguna dihitung oleh progression engine dari canonical state, bukan dipelihara sebagai angka manual.
-
----
 
 ## 🗺️ RPG QUEST MAP
 
@@ -147,10 +171,6 @@ Progress pengguna dihitung oleh progression engine dari canonical state, bukan d
 | 29 | Simulasi Mensetsu & Rirekisho (4) | Lesson |
 | 30 | 🏆 FINAL BOSS: Trial Exam N5 & Mensetsu | Final Exam |
 
-Detail progression, dependency, dan badge tersedia di `data/curriculum.yaml` dan `data/badges.yaml`.
-
----
-
 ## 🏅 Sistem Badge
 
 - `Rookie I–IV` — Day 01–04
@@ -163,11 +183,9 @@ Detail progression, dependency, dan badge tersedia di `data/curriculum.yaml` dan
 - `Interview Master` — Day 26–29
 - 🥇 **GOLD JAYANTARA** — Day 30
 
----
-
 ## 🧪 Validasi & Development
 
-Semua perubahan pada `quests/`, `data/`, `schemas/`, atau `scripts/` divalidasi oleh GitHub Actions. Suite mencakup frontmatter, curriculum, dependency graph, progression, badge rules, progress state, persistence, dan CLI.
+GitHub Actions memvalidasi frontmatter, curriculum, dependency graph, progression, badge rules, progress state, persistence, CLI, Web/PWA, dan Desktop packaging.
 
 Validator utama:
 
@@ -192,21 +210,18 @@ python3 scripts/test_quest_details.py
 python3 scripts/test_jayantara_cli.py
 ```
 
----
+## 📚 Tutorial penggunaan
 
-## 🚀 Cara Belajar
-
-1. Jalankan `python3 scripts/jayantara.py start`.
-2. Buka quest Day yang ditampilkan dan kerjakan materinya.
-3. Selesaikan checklist belajar.
-4. Jalankan `python3 scripts/jayantara.py complete N` setelah target hari selesai.
-5. Lanjut ke Day berikutnya. Sistem akan menolak quest yang dilompati.
-6. Gunakan `status` untuk melihat XP, badge, phase, dan current day.
+1. Buka JAYANTARA di browser atau instal release untuk device Anda.
+2. Mulai dari Day 01 dan ikuti quest secara berurutan.
+3. Baca materi dan kerjakan latihan/checklist.
+4. Tandai quest selesai melalui aplikasi atau CLI.
+5. Pantau XP, badge, phase, dan current day.
+6. Jangan melompati prerequisite: progression engine menjaga urutan quest.
+7. Gunakan Web/PWA bila ingin akses cepat tanpa instalasi; gunakan desktop/mobile bila ingin pengalaman aplikasi native/shell.
 
 ---
 
 *LPK JAYANTARA — Lembaga Pelatihan Kerja Bahasa Jepang & Persiapan Kerja ke Jepang*
-
----
 
 <sub>© 2026 LPK JAYANTARA. All Rights Reserved. Materi ini dilindungi hak cipta — dilarang menyalin, mendistribusikan ulang, atau memodifikasi tanpa izin tertulis. Lihat LICENSE.md.</sub>
