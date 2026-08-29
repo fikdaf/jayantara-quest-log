@@ -1,0 +1,14 @@
+appId: com.jayantara.questlog
+productName: Jayantara Quest Log
+files:
+  - dist/**
+  - main.cjs
+directories:
+  output: release
+linux:
+  target: AppImage
+  category: Education
+mac:
+  target: dmg
+win:
+  target: nsis
