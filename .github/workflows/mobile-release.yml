@@ -12,37 +12,40 @@ on:
           - preview
           - production
 
+permissions:
+  contents: read
+
 jobs:
   android:
     name: Android EAS build
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: apps/mobile
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
-      - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: npx eas-cli@latest build --platform android --profile ${{ inputs.profile }} --non-interactive
+      - name: Install workspace dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Build Android
+        working-directory: apps/mobile
+        run: npx eas-cli@latest build --platform android --profile ${{ inputs.profile }} --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
   ios:
     name: iOS EAS build
     runs-on: macos-latest
-    defaults:
-      run:
-        working-directory: apps/mobile
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
-      - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: npx eas-cli@latest build --platform ios --profile ${{ inputs.profile }} --non-interactive
+      - name: Install workspace dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Build iOS
+        working-directory: apps/mobile
+        run: npx eas-cli@latest build --platform ios --profile ${{ inputs.profile }} --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
