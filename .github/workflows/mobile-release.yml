@@ -11,6 +11,15 @@ on:
         options:
           - preview
           - production
+      platform:
+        description: Platform to build
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - android
+          - ios
 
 permissions:
   contents: read
@@ -18,6 +27,7 @@ permissions:
 jobs:
   android:
     name: Android EAS build
+    if: inputs.platform == 'all' || inputs.platform == 'android'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,6 +37,9 @@ jobs:
           cache: npm
       - name: Install workspace dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Validate Expo project
+        working-directory: apps/mobile
+        run: npx expo config --type public
       - name: Build Android
         working-directory: apps/mobile
         run: npx eas-cli@latest build --platform android --profile ${{ inputs.profile }} --non-interactive
@@ -35,6 +48,7 @@ jobs:
 
   ios:
     name: iOS EAS build
+    if: inputs.platform == 'all' || inputs.platform == 'ios'
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -44,6 +58,9 @@ jobs:
           cache: npm
       - name: Install workspace dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Validate Expo project
+        working-directory: apps/mobile
+        run: npx expo config --type public
       - name: Build iOS
         working-directory: apps/mobile
         run: npx eas-cli@latest build --platform ios --profile ${{ inputs.profile }} --non-interactive
