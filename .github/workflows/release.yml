@@ -21,7 +21,8 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install workspace dependencies
+        run: npm install --workspaces --include-workspace-root --package-lock=false --ignore-scripts --no-audit --no-fund
       - run: npm test
       - run: npm run build --workspace @jayantara/web
       - name: Validate PWA output
@@ -31,12 +32,12 @@ jobs:
           for f in apps/web/dist/index.html apps/web/dist/manifest.webmanifest apps/web/dist/sw.js apps/web/dist/icons/icon.svg; do
             test -f "$f" || { echo "Missing $f"; exit 1; }
           done
-      - name: Upload web artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: jayantara-web
           path: apps/web/dist
           if-no-files-found: error
+          retention-days: 14
 
   desktop:
     name: Desktop (${{ matrix.os }})
@@ -52,9 +53,12 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install workspace dependencies
+        run: npm install --workspaces --include-workspace-root --package-lock=false --ignore-scripts --no-audit --no-fund
       - run: npm run build:core
-      - run: npm run package --workspace @jayantara/desktop
+      - name: Package desktop
+        working-directory: apps/desktop
+        run: npm run package
       - uses: actions/upload-artifact@v4
         with:
           name: jayantara-desktop-${{ matrix.os }}
@@ -73,7 +77,10 @@ jobs:
           path: release-assets
           merge-multiple: true
       - name: Show release assets
-        run: find release-assets -type f -maxdepth 3 -print
+        run: |
+          set -euo pipefail
+          find release-assets -type f -maxdepth 3 -print
+          test -n "$(find release-assets -type f -print -quit)"
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -82,7 +89,7 @@ jobs:
           set -euo pipefail
           test -n "$TAG"
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" release-assets/* --clobber
+            find release-assets -type f -print0 | xargs -0 -r gh release upload "$TAG" --clobber
           else
             gh release create "$TAG" release-assets/* --title "Jayantara Quest Log $TAG" --generate-notes
           fi
