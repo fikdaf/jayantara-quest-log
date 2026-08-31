@@ -82,25 +82,20 @@ jobs:
           set -euo pipefail
           find release-assets -type f -maxdepth 3 -print
           test -n "$(find release-assets -type f -print -quit)"
-      - name: Prepare git metadata for gh
-        shell: bash
-        run: |
-          set -euo pipefail
-          git init
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add -A
-          git commit --allow-empty -m "release: prepare gh cli context"
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ inputs.tag }}
+          GH_REPO: ${{ github.repository }}
         shell: bash
         run: |
           set -euo pipefail
           test -n "$TAG"
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            find release-assets -type f -print0 | xargs -0 -r gh release upload "$TAG" --clobber
+          test -n "$GH_REPO"
+          if gh release view "$TAG" --repo "$GH_REPO" >/dev/null 2>&1; then
+            find release-assets -type f -print0 | while IFS= read -r -d '' file; do
+              gh release upload "$TAG" "$file" --repo "$GH_REPO" --clobber
+            done
           else
-            gh release create "$TAG" release-assets/* --title "Jayantara Quest Log $TAG" --generate-notes
+            gh release create "$TAG" release-assets/* --repo "$GH_REPO" --title "Jayantara Quest Log $TAG" --generate-notes
           fi
