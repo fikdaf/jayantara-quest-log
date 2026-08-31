@@ -80,7 +80,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          find release-assets -type f -maxdepth 3 -print
+          find release-assets -type f -print
           test -n "$(find release-assets -type f -print -quit)"
       - name: Publish release
         env:
@@ -92,10 +92,12 @@ jobs:
           set -euo pipefail
           test -n "$TAG"
           test -n "$GH_REPO"
+          mapfile -d '' assets < <(find release-assets -type f -print0)
+          test "${#assets[@]}" -gt 0
           if gh release view "$TAG" --repo "$GH_REPO" >/dev/null 2>&1; then
-            find release-assets -type f -print0 | while IFS= read -r -d '' file; do
+            for file in "${assets[@]}"; do
               gh release upload "$TAG" "$file" --repo "$GH_REPO" --clobber
             done
           else
-            gh release create "$TAG" release-assets/* --repo "$GH_REPO" --title "Jayantara Quest Log $TAG" --generate-notes
+            gh release create "$TAG" "${assets[@]}" --repo "$GH_REPO" --title "Jayantara Quest Log $TAG" --generate-notes
           fi
