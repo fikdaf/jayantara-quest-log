@@ -76,12 +76,21 @@ jobs:
           pattern: jayantara-*
           path: release-assets
           merge-multiple: true
-      - name: Show release assets
+      - name: Prepare release files
         shell: bash
         run: |
           set -euo pipefail
-          find release-assets -type f -print
-          test -n "$(find release-assets -type f -print -quit)"
+          rm -rf release-upload
+          mkdir -p release-upload
+          count=0
+          while IFS= read -r -d '' file; do
+            count=$((count + 1))
+            rel="${file#release-assets/}"
+            safe="${rel//\//--}"
+            cp -- "$file" "release-upload/$safe"
+          done < <(find release-assets -type f -print0)
+          test "$count" -gt 0
+          find release-upload -type f -print
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -92,12 +101,15 @@ jobs:
           set -euo pipefail
           test -n "$TAG"
           test -n "$GH_REPO"
-          mapfile -d '' assets < <(find release-assets -type f -print0)
-          test "${#assets[@]}" -gt 0
           if gh release view "$TAG" --repo "$GH_REPO" >/dev/null 2>&1; then
-            for file in "${assets[@]}"; do
+            while IFS= read -r -d '' file; do
               gh release upload "$TAG" "$file" --repo "$GH_REPO" --clobber
-            done
+            done < <(find release-upload -type f -print0)
           else
-            gh release create "$TAG" "${assets[@]}" --repo "$GH_REPO" --title "Jayantara Quest Log $TAG" --generate-notes
+            first="$(find release-upload -type f -print -quit)"
+            gh release create "$TAG" "$first" --repo "$GH_REPO" --title "Jayantara Quest Log $TAG" --generate-notes
+            while IFS= read -r -d '' file; do
+              [ "$file" = "$first" ] && continue
+              gh release upload "$TAG" "$file" --repo "$GH_REPO" --clobber
+            done < <(find release-upload -type f -print0)
           fi
