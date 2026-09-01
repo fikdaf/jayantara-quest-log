@@ -94,14 +94,14 @@ jobs:
           mkdir -p release-upload
           count=0
           while IFS= read -r -d '' file; do
+            case "$file" in
+              release-assets/linux/*.AppImage) prefix="linux" ;;
+              release-assets/macos/*.dmg) prefix="macos" ;;
+              release-assets/windows/*.exe) prefix="windows" ;;
+              *) echo "Skipping non-release artifact: $file" ; continue ;;
+            esac
             count=$((count + 1))
             base="$(basename "$file")"
-            case "$file" in
-              release-assets/linux/*) prefix="linux" ;;
-              release-assets/macos/*) prefix="macos" ;;
-              release-assets/windows/*) prefix="windows" ;;
-              *) echo "Unexpected release path: $file" >&2; exit 1 ;;
-            esac
             cp -- "$file" "release-upload/${prefix}-${base}"
           done < <(find release-assets -type f -print0)
           test "$count" -gt 0
@@ -110,7 +110,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          find release-upload -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
+          mapfile -d '' assets < <(find release-upload -maxdepth 1 -type f -print0)
+          test "${#assets[@]}" -gt 0
+          for file in "${assets[@]}"; do
             case "$file" in
               *.exe|*.dmg|*.AppImage) ;;
               *) echo "Unexpected release asset: $file" >&2; exit 1 ;;
