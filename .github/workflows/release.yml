@@ -71,11 +71,21 @@ jobs:
     needs: [validate, desktop]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download Linux desktop artifact
+        uses: actions/download-artifact@v4
         with:
-          pattern: jayantara-*
-          path: release-assets
-          merge-multiple: true
+          name: jayantara-desktop-ubuntu-latest
+          path: release-assets/linux
+      - name: Download macOS desktop artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: jayantara-desktop-macos-latest
+          path: release-assets/macos
+      - name: Download Windows desktop artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: jayantara-desktop-windows-latest
+          path: release-assets/windows
       - name: Prepare release files
         shell: bash
         run: |
@@ -85,12 +95,27 @@ jobs:
           count=0
           while IFS= read -r -d '' file; do
             count=$((count + 1))
-            rel="${file#release-assets/}"
-            safe="${rel//\//--}"
-            cp -- "$file" "release-upload/$safe"
+            base="$(basename "$file")"
+            case "$file" in
+              release-assets/linux/*) prefix="linux" ;;
+              release-assets/macos/*) prefix="macos" ;;
+              release-assets/windows/*) prefix="windows" ;;
+              *) echo "Unexpected release path: $file" >&2; exit 1 ;;
+            esac
+            cp -- "$file" "release-upload/${prefix}-${base}"
           done < <(find release-assets -type f -print0)
           test "$count" -gt 0
-          find release-upload -type f -print
+          find release-upload -maxdepth 1 -type f -print
+      - name: Validate release file types
+        shell: bash
+        run: |
+          set -euo pipefail
+          find release-upload -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
+            case "$file" in
+              *.exe|*.dmg|*.AppImage) ;;
+              *) echo "Unexpected release asset: $file" >&2; exit 1 ;;
+            esac
+          done
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -101,15 +126,12 @@ jobs:
           set -euo pipefail
           test -n "$TAG"
           test -n "$GH_REPO"
+          mapfile -d '' assets < <(find release-upload -maxdepth 1 -type f -print0)
+          test "${#assets[@]}" -gt 0
           if gh release view "$TAG" --repo "$GH_REPO" >/dev/null 2>&1; then
-            while IFS= read -r -d '' file; do
+            for file in "${assets[@]}"; do
               gh release upload "$TAG" "$file" --repo "$GH_REPO" --clobber
-            done < <(find release-upload -type f -print0)
+            done
           else
-            first="$(find release-upload -type f -print -quit)"
-            gh release create "$TAG" "$first" --repo "$GH_REPO" --title "Jayantara Quest Log $TAG" --generate-notes
-            while IFS= read -r -d '' file; do
-              [ "$file" = "$first" ] && continue
-              gh release upload "$TAG" "$file" --repo "$GH_REPO" --clobber
-            done < <(find release-upload -type f -print0)
+            gh release create "$TAG" "${assets[@]}" --repo "$GH_REPO" --title "Jayantara Quest Log $TAG" --generate-notes
           fi
